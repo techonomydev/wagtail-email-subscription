@@ -1,11 +1,11 @@
-# wagtail-bootstrap-app
-[![Django CI](https://github.com/maerteijn/wagtail-bootstrap-app/actions/workflows/ci.yml/badge.svg)](https://github.com/maerteijn/wagtail-bootstrap-app/actions/workflows/ci.yml)
+# wagtail-active-campaign
+[![Django CI](https://github.com/maerteijn/wagtail-active-campaign/actions/workflows/ci.yml/badge.svg)](https://github.com/maerteijn/wagtail-active-campaign/actions/workflows/ci.yml)
 
-A clean Poetry based Wagtail app which includes CI
+Wagtail form integration with Active Campaign
 
 ## Install with poetry
 ```bash
-git clone https://github.com/maerteijn/wagtail-bootstrap-app
+git clone https://github.com/maerteijn/wagtail-active-campaign
 pip install poetry
 
 # This will also create a virtualenv when not activated

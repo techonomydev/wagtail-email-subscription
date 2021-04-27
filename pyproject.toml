@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "wagtail-bootstrap-app"
+name = "wagtail-active-campaign"
 version = "0.0.1"
-description = "An boilerplate / bootstrap installation of a Django app"
+description = "Wagtail form integration with Active Campaign"
 authors = ["Martijn Jacobs <maerteijn@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/maerteijn/wagtail-bootstrap-app"
+repository = "https://github.com/maerteijn/wagtail-active-campaign"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Web Environment",
@@ -19,7 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9"
 ]
 packages = [
-    { include = "wagtail_bootstrap_app", from = "src" },
+    { include = "wagtail_active_campaign", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -70,7 +70,7 @@ use_parentheses = true
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "sandbox.settings"
 testpaths = "tests/"
-addopts = "--reuse-db --cov=wagtail_bootstrap_app -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
+addopts = "--reuse-db --cov=wagtail_active_campaign -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
 python_paths = "sandbox"
 
 [tool.coverage.run]
