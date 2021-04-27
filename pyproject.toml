@@ -26,6 +26,7 @@ packages = [
 python = "^3.7"
 Django = "~3.1"
 wagtail = "^2.12.4"
+activecampaign-python = "^1.0.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "~3.8"
@@ -52,7 +53,7 @@ requires = ["poetry-core>=1.0.0", " poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pylint.messages_control]
-disable = "C,W5103"
+disable = "R,C,W5103,W0511"
 
 [tool.pylint.format]
 max-line-length = "88"

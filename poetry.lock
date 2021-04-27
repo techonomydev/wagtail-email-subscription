@@ -1,4 +1,15 @@
 [[package]]
+name = "activecampaign-python"
+version = "1.0.3"
+description = "ActiveCampaign API written in python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "anyascii"
 version = "0.2.0"
 description = "Unicode to ASCII transliteration"
@@ -842,9 +853,12 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "3fd5b464ac38a873a93cb56de68f078e568f150cf3093c00e52b3ad3ed4497bd"
+content-hash = "60d68c4465098ea2bf974f3764b91212fbef34eba22403cc21aeeb20b7eeaf6c"
 
 [metadata.files]
+activecampaign-python = [
+    {file = "activecampaign-python-1.0.3.tar.gz", hash = "sha256:da94366dd60defc0acd129ee8f064ccd69ad96df109d1e4cf687e19cf9b5014d"},
+]
 anyascii = [
     {file = "anyascii-0.2.0-py3-none-any.whl", hash = "sha256:18a77d22da66f2b5e6951f7f365b543656f16c5d7c68f7c70055f030767df403"},
     {file = "anyascii-0.2.0.tar.gz", hash = "sha256:7036c5fdefa40fe9d73a6552ac4f2821916a2a29c1368925f0b7846e536bd2ac"},
