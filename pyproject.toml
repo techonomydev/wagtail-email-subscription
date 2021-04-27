@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "wagtail-bootstrap-app"
+version = "0.0.1"
+description = "An boilerplate / bootstrap installation of a Django app"
+authors = ["Martijn Jacobs <maerteijn@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/maerteijn/wagtail-bootstrap-app"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
+]
+packages = [
+    { include = "wagtail_bootstrap_app", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = "~3.1"
+wagtail = "^2.12.4"
+
+[tool.poetry.dev-dependencies]
+flake8 = "~3.8"
+flake8-black = "^0.2.1"
+flake8-isort =  "4.0"
+pylint = "~2.8"
+black = "-20.8b1"
+psycopg2-binary = "~2.8"
+pytest = "~^6.2"
+pytest-django = "~4.2"
+pytest-cov = "~2.11"
+pytest-env = "^0.6.2"
+poetry-dynamic-versioning = "^0.12.6"
+pytest-pythonpath = "^0.7.3"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+metadata = true
+tagged-metadata = true
+latest-tag = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", " poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.messages_control]
+disable = "C,W5103"
+
+[tool.pylint.format]
+max-line-length = "88"
+
+[tool.pylint.master]
+init-hook = "import sys; sys.path.append('.')"
+
+[tool.isort]
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+use_parentheses = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "sandbox.settings"
+testpaths = "tests/"
+addopts = "--reuse-db --cov=wagtail_bootstrap_app -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
+python_paths = "sandbox"
+
+[tool.coverage.run]
+omit = ["**/migrations/**", "**/tests/**", "sandbox/**"]
+
+[tool.coverage.report]
+show_missing = true
