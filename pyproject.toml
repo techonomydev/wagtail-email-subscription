@@ -27,6 +27,7 @@ python = "^3.7"
 Django = "~3.1"
 wagtail = "^2.12.4"
 activecampaign-python = "^1.0.3"
+wagtail-generic-chooser = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "~3.8"
