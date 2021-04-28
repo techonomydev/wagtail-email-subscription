@@ -1,3 +1,4 @@
+from django import forms
 from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
@@ -38,7 +39,7 @@ class ActiveCampaignSettings(BaseSetting):
         MultiFieldPanel(
             [
                 FieldPanel("api_url"),
-                FieldPanel("api_key"),
+                FieldPanel("api_key", widget=forms.PasswordInput(render_value=True)),
             ],
             heading="API settings",
         ),
