@@ -16,10 +16,10 @@ class Client(client.Client):
         response = self.lists.retrieve_all_lists()
         if isinstance(response, str) and len(response) == 0:
             return False
-
         return True
 
     def get_list_choices(self):
-        # TODO: Check for nr of results and do as much lookups as needed
+        # TODO: Check for nr of results and do as much lookups as needed, or implement
+        # pagination
         response = self.lists.retrieve_all_lists(limit=100)
-        return ({"id": x["stringid"], "title": x["name"]} for x in response["lists"])
+        return [{"id": x["stringid"], "title": x["name"]} for x in response["lists"]]
