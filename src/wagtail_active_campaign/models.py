@@ -55,9 +55,12 @@ class ActiveCampaignSettings(BaseSetting):
         if not self.enabled:
             return
 
-        client = Client(self.api_url, self.api_key)
+        client = self.get_client()
         if not client.check_credentials():
             raise ValidationError("Invalid url or API key")
+
+    def get_client(self):
+        return Client(self.api_url, self.api_key)
 
 
 class ActiveCampaignFormField(AbstractActiveCampaignFormField):
