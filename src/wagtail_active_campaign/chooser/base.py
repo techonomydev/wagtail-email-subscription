@@ -4,7 +4,7 @@ from generic_chooser.views import ChooserMixin, ChooserViewSet
 from wagtail.core.models import Site
 
 from wagtail_active_campaign.client import Client
-from wagtail_active_campaign.models import ActiveCampaignSettings
+from wagtail_active_campaign.utils import get_active_campaign_settings
 
 
 class ActiveCampaignChooserMixin(ChooserMixin):
@@ -13,13 +13,11 @@ class ActiveCampaignChooserMixin(ChooserMixin):
     is_searchable = False
     per_page = 10
 
-    id_field = "id"
-    title_field = "title"
+    id_field = "stringid"
+    title_field = "name"
 
     def filter_result_by_search_term(self, result, search_term):
-        raise NotImplementedError(
-            "Implement a filter_result_by_search_term on the specific viewset"
-        )
+        return [x for x in result if search_term.lower() in x[self.title_field].lower()]
 
     def call_client(self, client):
         raise NotImplementedError(
@@ -30,15 +28,16 @@ class ActiveCampaignChooserMixin(ChooserMixin):
         result = []
 
         site = Site.find_for_request(self.request)
-        settings = ActiveCampaignSettings.for_site(site)
+        settings = get_active_campaign_settings(site)
+
         if settings.enabled:
             client = Client(settings.api_url, settings.api_key)
 
             if client.check_credentials():
                 result = self.call_client(client)
 
-        if search_term:
-            result = self.filter_result_by_search_term(result, search_term)
+            if search_term:
+                result = self.filter_result_by_search_term(result, search_term)
         return result
 
     def get_object(self, item_id):  # pylint: disable=W0221
@@ -54,7 +53,7 @@ class ActiveCampaignChooserMixin(ChooserMixin):
         return item[self.id_field]
 
     def get_object_string(self, item):  # pylint: disable=W0221
-        return f"{item[self.id_field]} ({item[self.title_field]})"
+        return f"{item[self.title_field]}"
 
 
 class ActiveCampaignChooserViewSet(ChooserViewSet):
