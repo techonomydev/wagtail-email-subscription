@@ -11,6 +11,7 @@ class ActiveCampaignChooserMixin(ChooserMixin):
     # When enabled, you can use the filter_result_by_search_term method to
     # filter the result 'client side' in the REST result set
     is_searchable = False
+    per_page = 10
 
     id_field = "id"
     title_field = "title"
@@ -37,7 +38,7 @@ class ActiveCampaignChooserMixin(ChooserMixin):
                 result = self.call_client(client)
 
         if search_term:
-            return self.filter_result_by_search_term(result, search_term)
+            result = self.filter_result_by_search_term(result, search_term)
         return result
 
     def get_object(self, item_id):  # pylint: disable=W0221
