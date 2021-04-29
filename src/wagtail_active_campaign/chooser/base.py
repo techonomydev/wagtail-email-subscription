@@ -3,7 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from generic_chooser.views import ChooserMixin, ChooserViewSet
 from wagtail.core.models import Site
 
-from wagtail_active_campaign.client import Client
 from wagtail_active_campaign.utils import get_active_campaign_settings
 
 
@@ -13,7 +12,7 @@ class ActiveCampaignChooserMixin(ChooserMixin):
     is_searchable = False
     per_page = 10
 
-    id_field = "stringid"
+    id_field = "id"
     title_field = "name"
 
     def filter_result_by_search_term(self, result, search_term):
@@ -31,11 +30,10 @@ class ActiveCampaignChooserMixin(ChooserMixin):
         settings = get_active_campaign_settings(site)
 
         if settings.enabled:
-            client = Client(settings.api_url, settings.api_key)
+            client = settings.get_client()
 
             if client.check_credentials():
                 result = self.call_client(client)
-
             if search_term:
                 result = self.filter_result_by_search_term(result, search_term)
         return result
