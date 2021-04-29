@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.contrib.forms.edit_handlers import FormSubmissionsPanel
@@ -59,3 +60,13 @@ class AbstractActiveCampaignForm(AbstractForm):
 
     class Meta(AbstractForm.Meta):
         abstract = True
+
+    def clean(self):
+        super().clean()
+
+        if self.enabled and not self.selected_list:
+            raise ValidationError(
+                {
+                    "selected_list": "Please select a valid list when the Active Campaign is enabled"
+                }
+            )
