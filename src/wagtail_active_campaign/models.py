@@ -90,6 +90,13 @@ class ActiveCampaignForm(AbstractActiveCampaignForm):
         ]
     )
 
+    def prepare_data_for_active_campain(self, data):
+        # only use the fields which have a filled out mapping field
+        qs = self.form_fields.exclude(mapping__exact="")  # pylint: disable=no-member
+        qs = qs.values_list("mapping", "clean_name")
+
+        return {mapping: data[clean_name] for mapping, clean_name in qs}
+
     # Do not make these pages available in the wagtail admin per default
     # TODO: Make this a setting
     parent_page_types = []
