@@ -1,39 +1,65 @@
 # wagtail-active-campaign
 [![Django CI](https://github.com/maerteijn/wagtail-active-campaign/actions/workflows/ci.yml/badge.svg)](https://github.com/maerteijn/wagtail-active-campaign/actions/workflows/ci.yml)
 
-Wagtail form integration with Active Campaign
+Wagtail form builder integration with Active Campaign. This package ships with a fully working app which also demonstrates
+how you can integrate this in your own wagtail website.
 
-## Install with poetry
+## Prerequisites
+- Active Campaign API credentials (see the "development" section in your Active Campaign account settings)
+- At least one added Active Campaign list (this is where your contacts wull show up)
+
+
+## Installation
+Install the package from pypi
+```bash
+pip install wagtail-active-campaign
+```
+
+Or from github directly:
+```bash
+pip install https://github.com/maerteijn/wagtail-active-campaign.git
+```
+
+Add the following to your `INSTALLED_APPS`:
+```python
+INSTALLED_APPS = [
+    ...
+    "generic_chooser",
+    "wagtail_active_campaign",
+    "wagtail_active_campaign.contrib.formpage",
+]
+```
+
+And finally run the migrations:
+```bash
+manage.py migrate
+```
+
+## Configuration
+- Login your wagtail admin and go to the site settings
+- Add your API url and key to the `Active Campaign Settings` tab, make sure to enable the settings
+- Create a new page which has the forms implemented  (`contrib.formpage` includes a ready to use `Form Page`)
+- Add at least an email field and choose the correct mapping (also `email`)
+- Go to the page settings tab and select a list where the contacts should go, make sure to enable the settings
+
+
+## Development (with poetry)
 ```bash
 git clone https://github.com/maerteijn/wagtail-active-campaign
-pip install poetry
 
 # This will also create a virtualenv when not activated
-poetry install
+make install
 ```
 
 ## Linting
-`flake8-black` and `flake8-isort` are installed too. The flake8-pylint pluging is still
-in early development, so we need to call pylint manually
 ```bash
-flake8
-pylint src/
-```
-
-## Black
-```bash
-black src/
-```
-
-## Isort
-```bash
-isort .
+make lint
 ```
 
 ## Test
 Pytest with coverage is default enabled
 ```bash
-pytest
+make test
 ```
 
 ## Run the sandbox
