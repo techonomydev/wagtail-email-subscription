@@ -32,7 +32,8 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
         prepared_data = self.prepare_data_for_active_campain()
 
         if prepared_data == {} or "email" not in prepared_data:
-            logger.error(f"{self}: The required email field is not in the formdata!")
+            page = getattr(self, self.PAGE_FIELD)
+            logger.error("%s The required email field is not in the formdata!", page)
         else:
             self.post_data_to_active_campaign(prepared_data)
 
@@ -62,13 +63,13 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
             logger.error("Active Campaign credentials are not set correctly!")
             return
 
-        logger.debug(f"Posting {data} to active campaign")
+        logger.debug("Posting %s to active campaign", data)
         contact = client.create_or_update_contact(data)
-        logger.debug(f"Contact added: {contact}")
+        logger.debug("Contact added: %s", contact["id"])
 
-        logger.debug(f"Adding contact {contact} to list {page.selected_list}")
+        logger.debug("Adding contact %s to list %s", contact["id"], page.selected_list)
         client.add_contact_to_list(contact_id=contact["id"], list_id=page.selected_list)
-        logger.debug(f"Contact {contact} added to list {page.selected_list}")
+        logger.debug("Contact %s added to list %s", contact["id"], page.selected_list)
 
         self.synced = True
         self.save()
