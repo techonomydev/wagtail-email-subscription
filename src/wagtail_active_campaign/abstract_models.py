@@ -4,12 +4,74 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.contrib.forms.edit_handlers import FormSubmissionsPanel
-from wagtail.contrib.forms.models import AbstractForm, AbstractFormField
+from wagtail.contrib.forms.models import (
+    AbstractForm,
+    AbstractFormField,
+    AbstractFormSubmission,
+)
 
 from .chooser.widgets import ListChooserWidget
 from .utils import get_active_campaign_settings
 
 logger = logging.getLogger(__name__)
+
+
+class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
+    PAGE_FIELD = "page"
+
+    synced = models.BooleanField(
+        "Synced",
+        help_text="This record is synced with Active Campaign",
+        default=False,
+    )
+
+    class Meta(AbstractFormSubmission.Meta):
+        abstract = True
+
+    def handle_active_campaign_submission(self):
+        prepared_data = self.prepare_data_for_active_campain()
+
+        if prepared_data == {} or "email" not in prepared_data:
+            logger.error(f"{self}: The required email field is not in the formdata!")
+        else:
+            self.post_data_to_active_campaign(prepared_data)
+
+    def prepare_data_for_active_campain(self):
+        data = self.get_data()
+        page = getattr(self, self.PAGE_FIELD)
+
+        # only use the fields which have a filled out mapping field
+        qs = getattr(page, page.FORM_FIELDS_REVERSE)
+        qs = qs.exclude(mapping__exact="")
+        qs = qs.values_list("mapping", "clean_name")
+
+        return {mapping: data[clean_name] for mapping, clean_name in qs}
+
+    def post_data_to_active_campaign(self, data):
+        page = getattr(self, self.PAGE_FIELD)
+        site = page.get_site()
+        settings = get_active_campaign_settings(site)
+
+        if not settings.enabled:
+            logger.warning("Check your settings as Active Campaign is not enabled!")
+            return
+
+        client = settings.get_client()
+
+        if not client.check_credentials():
+            logger.error("Active Campaign credentials are not set correctly!")
+            return
+
+        logger.debug(f"Posting {data} to active campaign")
+        contact = client.create_or_update_contact(data)
+        logger.debug(f"Contact added: {contact}")
+
+        logger.debug(f"Adding contact {contact} to list {page.selected_list}")
+        client.add_contact_to_list(contact_id=contact["id"], list_id=page.selected_list)
+        logger.debug(f"Contact {contact} added to list {page.selected_list}")
+
+        self.synced = True
+        self.save()
 
 
 class AbstractActiveCampaignForm(AbstractForm):
@@ -49,38 +111,12 @@ class AbstractActiveCampaignForm(AbstractForm):
     class Meta(AbstractForm.Meta):
         abstract = True
 
-    def post_data_to_active_campaign(self, list_id, data):
-        # TODO move the actual posting logic to the client
-        site = self.get_site()
-        settings = get_active_campaign_settings(site)
-
-        if not settings.enabled:
-            logger.warning("Check your settings as Active Campaign is not enabled!")
-            return
-
-        client = settings.get_client()
-        if not client.check_credentials():
-            logger.error("Active Campaign credentials are not set correctly!")
-            return
-
-        contact = client.create_or_update_contact(data)
-        client.add_contact_to_list(contact_id=contact["id"], list_id=list_id)
-
-    def prepare_data_for_active_campain(self, data):
-        # only use the fields which have a filled out mapping field
-        qs = getattr(self, self.FORM_FIELDS_REVERSE)
-        qs = qs.exclude(mapping__exact="")
-        qs = qs.values_list("mapping", "clean_name")
-
-        return {mapping: data[clean_name] for mapping, clean_name in qs}
-
     def process_form_submission(self, form):
         instance = super().process_form_submission(form)
 
-        # TODO: get the data from the submission model and do the handling there!
         if self.enabled:
-            post_data = self.prepare_data_for_active_campain(form.cleaned_data)
-            self.post_data_to_active_campaign(self.selected_list, post_data)
+            instance.handle_active_campaign_submission()
+
         return instance
 
     def get_form_fields(self):
