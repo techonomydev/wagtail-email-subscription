@@ -43,7 +43,7 @@ class FormPage(AbstractActiveCampaignForm):
         ]
     )
 
-    template = "wagtail_active_campaign/form_page.html"
+    template = "form_page/form_page.html"
 
     def get_submission_class(self):
         return FormPageSubmission

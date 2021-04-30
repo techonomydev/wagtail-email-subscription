@@ -17,11 +17,13 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/henk.css' %}">
-
         {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
+            <style type="text/css">
+              td {
+                padding: 10px;
+              }
+
+            </style>
         {% endblock %}
     </head>
 
