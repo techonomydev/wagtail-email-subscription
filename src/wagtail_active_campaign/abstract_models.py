@@ -28,6 +28,10 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
     class Meta(AbstractFormSubmission.Meta):
         abstract = True
 
+    def get_data(self):
+        data = super().get_data()
+        return {**data, "synced": self.synced}
+
     def handle_active_campaign_submission(self):
         prepared_data = self.prepare_data_for_active_campain()
 
@@ -132,6 +136,10 @@ class AbstractActiveCampaignForm(AbstractForm):
                     "selected_list": "Please select a valid list when the Active Campaign is enabled"
                 }
             )
+
+    def get_data_fields(self):
+        fields = super().get_data_fields()
+        return fields + [("synced", "Synced")]
 
 
 class AbstractActiveCampaignFormField(AbstractFormField):
