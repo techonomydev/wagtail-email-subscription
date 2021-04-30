@@ -12,29 +12,10 @@ from .utils import get_active_campaign_settings
 logger = logging.getLogger(__name__)
 
 
-class AbstractActiveCampaignFormField(AbstractFormField):
-    # TODO: Make this a setting and/or dynamic
-    ACTIVE_CAMPAIN_FIELDNAMES = (
-        ("email", "email"),
-        ("firstName", "firstName"),
-        ("lastName", "lastName"),
-        ("phone", "phone"),
-    )
-    mapping = models.CharField(
-        "Map field to",
-        max_length=255,
-        blank=True,
-        help_text="Select the mapped Active Campaign field",
-        choices=ACTIVE_CAMPAIN_FIELDNAMES,
-    )
-
-    panels = AbstractFormField.panels + [FieldPanel("mapping")]
-
-    class Meta(AbstractFormField.Meta):
-        abstract = True
-
-
 class AbstractActiveCampaignForm(AbstractForm):
+    FORM_FIELD = "form"
+    FORM_FIELDS_REVERSE = "form_fields"
+
     enabled = models.BooleanField(
         "Enabled",
         help_text="Enable or disable the Active Campaign integration of this form",
@@ -61,6 +42,8 @@ class AbstractActiveCampaignForm(AbstractForm):
         FormSubmissionsPanel(),
     ]
 
+    content_panels = AbstractForm.content_panels
+
     template = "wagtail_active_campaign/form_page.html"
 
     class Meta(AbstractForm.Meta):
@@ -83,11 +66,12 @@ class AbstractActiveCampaignForm(AbstractForm):
         client.add_contact_to_list(contact_id=contact["id"], list_id=list_id)
 
     def prepare_data_for_active_campain(self, data):
-        raise NotImplementedError(
-            "Implement a prepare_data_for_active_campain on your page. "
-            "See wagtail_active_campaign/models.py::ActiveCampaignForm for an "
-            "example using the related form fields"
-        )
+        # only use the fields which have a filled out mapping field
+        qs = getattr(self, self.FORM_FIELDS_REVERSE)
+        qs = qs.exclude(mapping__exact="")
+        qs = qs.values_list("mapping", "clean_name")
+
+        return {mapping: data[clean_name] for mapping, clean_name in qs}
 
     def process_form_submission(self, form):
         instance = super().process_form_submission(form)
@@ -96,6 +80,9 @@ class AbstractActiveCampaignForm(AbstractForm):
             post_data = self.prepare_data_for_active_campain(form.cleaned_data)
             self.post_data_to_active_campaign(self.selected_list, post_data)
         return instance
+
+    def get_form_fields(self):
+        return getattr(self, self.FORM_FIELDS_REVERSE).all()
 
     def clean(self):
         super().clean()
@@ -106,3 +93,26 @@ class AbstractActiveCampaignForm(AbstractForm):
                     "selected_list": "Please select a valid list when the Active Campaign is enabled"
                 }
             )
+
+
+class AbstractActiveCampaignFormField(AbstractFormField):
+    # TODO: Make this a setting and/or dynamic
+    ACTIVE_CAMPAIN_FIELDNAMES = (
+        ("email", "email"),
+        ("firstName", "firstName"),
+        ("lastName", "lastName"),
+        ("phone", "phone"),
+    )
+
+    mapping = models.CharField(
+        "Map field to",
+        max_length=255,
+        blank=True,
+        help_text="Select the mapped Active Campaign field",
+        choices=ACTIVE_CAMPAIN_FIELDNAMES,
+    )
+
+    panels = AbstractFormField.panels + [FieldPanel("mapping")]
+
+    class Meta(AbstractFormField.Meta):
+        abstract = True
