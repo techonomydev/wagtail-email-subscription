@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FormPage, FormPageField
+from .models import FormPage, FormPageField, FormPageSubmission
 
 
 class FormFieldInline(admin.TabularInline):
@@ -14,4 +14,4 @@ class ActiveCampaignFormPageAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(FormPage().get_submission_class())
+admin.site.register(FormPageSubmission)

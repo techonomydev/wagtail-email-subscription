@@ -11,7 +11,12 @@ from wagtail.core.fields import RichTextField
 from wagtail_active_campaign.abstract_models import (
     AbstractActiveCampaignForm,
     AbstractActiveCampaignFormField,
+    AbstractActiveCampaignFormSubmission,
 )
+
+
+class FormPageSubmission(AbstractActiveCampaignFormSubmission):
+    pass
 
 
 class FormPage(AbstractActiveCampaignForm):
@@ -39,6 +44,9 @@ class FormPage(AbstractActiveCampaignForm):
     )
 
     template = "wagtail_active_campaign/form_page.html"
+
+    def get_submission_class(self):
+        return FormPageSubmission
 
 
 class FormPageField(AbstractActiveCampaignFormField):
