@@ -55,9 +55,12 @@ class ActiveCampaignSettings(BaseSetting):
         if not self.enabled:
             return
 
-        client = Client(self.api_url, self.api_key)
+        client = self.get_client()
         if not client.check_credentials():
             raise ValidationError("Invalid url or API key")
+
+    def get_client(self):
+        return Client(self.api_url, self.api_key)
 
 
 class ActiveCampaignFormField(AbstractActiveCampaignFormField):
@@ -89,6 +92,13 @@ class ActiveCampaignForm(AbstractActiveCampaignForm):
             ObjectList(AbstractActiveCampaignForm.settings_panels, heading="Settings"),
         ]
     )
+
+    def prepare_data_for_active_campain(self, data):
+        # only use the fields which have a filled out mapping field
+        qs = self.form_fields.exclude(mapping__exact="")  # pylint: disable=no-member
+        qs = qs.values_list("mapping", "clean_name")
+
+        return {mapping: data[clean_name] for mapping, clean_name in qs}
 
     # Do not make these pages available in the wagtail admin per default
     # TODO: Make this a setting
