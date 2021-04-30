@@ -6,7 +6,7 @@ how you can integrate this in your own wagtail website.
 
 ## Prerequisites
 - Active Campaign API credentials (see the "development" section in your Active Campaign account settings)
-- At least one added Active Campaign list (this is where your contacts wull show up)
+- At least one added Active Campaign list (this is where your contacts will show up)
 
 
 ## Installation
