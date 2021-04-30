@@ -41,7 +41,7 @@ class FormPage(AbstractActiveCampaignForm):
     template = "wagtail_active_campaign/form_page.html"
 
 
-class FormPageFormField(AbstractActiveCampaignFormField):
+class FormPageField(AbstractActiveCampaignFormField):
     form_page = ParentalKey(
         "FormPage", on_delete=models.CASCADE, related_name="form_page_fields"
     )

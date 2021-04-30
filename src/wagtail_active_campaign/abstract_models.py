@@ -50,6 +50,7 @@ class AbstractActiveCampaignForm(AbstractForm):
         abstract = True
 
     def post_data_to_active_campaign(self, list_id, data):
+        # TODO move the actual posting logic to the client
         site = self.get_site()
         settings = get_active_campaign_settings(site)
 
@@ -76,6 +77,7 @@ class AbstractActiveCampaignForm(AbstractForm):
     def process_form_submission(self, form):
         instance = super().process_form_submission(form)
 
+        # TODO: get the data from the submission model and do the handling there!
         if self.enabled:
             post_data = self.prepare_data_for_active_campain(form.cleaned_data)
             self.post_data_to_active_campaign(self.selected_list, post_data)

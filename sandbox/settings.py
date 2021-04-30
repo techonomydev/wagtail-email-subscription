@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "generic_chooser",
     "wagtail_active_campaign",
-    "testapp",
+    "wagtail_active_campaign.contrib.formpage",
 ]
 
 MIDDLEWARE = [
