@@ -45,13 +45,15 @@ pytest-pythonpath = "^0.7.3"
 
 [tool.poetry-dynamic-versioning]
 enable = true
-metadata = true
-tagged-metadata = true
 latest-tag = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0", " poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+exclude = "/migrations/"
 
 [tool.pylint.messages_control]
 disable = "R,C,W5103,W0511"
