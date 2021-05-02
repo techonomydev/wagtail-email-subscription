@@ -19,7 +19,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: wagtail-active-campaign
+          POSTGRES_DB: wagtail-email-subscription
         options: >-
           --health-cmd pg_isready
           --health-interval 10s

@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from generic_chooser.widgets import AdminChooser
 
 
-class ActiveCampaignChooserWidget(AdminChooser):
+class EmailSubscriptionChooserWidget(AdminChooser):
     show_edit_link = False
 
     def get_instance(self, value):
@@ -13,5 +13,5 @@ class ActiveCampaignChooserWidget(AdminChooser):
         return value
 
 
-class ListChooserWidget(ActiveCampaignChooserWidget):
+class ListChooserWidget(EmailSubscriptionChooserWidget):
     choose_modal_url_name = "list_chooser:choose"

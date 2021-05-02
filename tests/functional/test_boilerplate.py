@@ -1,2 +1,2 @@
-def test_wagtail_active_campaign_installed(settings):
-    assert "wagtail_active_campaign" in settings.INSTALLED_APPS
+def test_wagtail_email_subscription_installed(settings):
+    assert "wagtail_email_subscription" in settings.INSTALLED_APPS

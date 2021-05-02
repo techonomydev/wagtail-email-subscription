@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "wagtail-active-campaign"
+name = "wagtail-email-subscription"
 version = "0.0.1"
-description = "Wagtail form integration with Active Campaign"
+description = "Wagtail form integration with Email marketing platforms like Active Campaign"
 authors = ["Martijn Jacobs <maerteijn@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/maerteijn/wagtail-active-campaign"
+repository = "https://github.com/maerteijn/wagtail-email-subscription"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Web Environment",
@@ -19,7 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9"
 ]
 packages = [
-    { include = "wagtail_active_campaign", from = "src" },
+    { include = "wagtail_email_subscription", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -74,7 +74,7 @@ use_parentheses = true
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "sandbox.settings"
 testpaths = "tests/"
-addopts = "--reuse-db --cov=wagtail_active_campaign -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
+addopts = "--reuse-db --cov=wagtail_email_subscription -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
 python_paths = "sandbox"
 
 [tool.coverage.run]

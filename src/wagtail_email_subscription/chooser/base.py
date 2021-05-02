@@ -3,10 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from generic_chooser.views import ChooserMixin, ChooserViewSet
 from wagtail.core.models import Site
 
-from wagtail_active_campaign.utils import get_active_campaign_settings
+from wagtail_email_subscription.utils import get_email_subscription_settings
 
 
-class ActiveCampaignChooserMixin(ChooserMixin):
+class EmailSubscriptionChooserMixin(ChooserMixin):
     # When enabled, you can use the filter_result_by_search_term method to
     # filter the result 'client side' in the REST result set
     is_searchable = False
@@ -27,7 +27,7 @@ class ActiveCampaignChooserMixin(ChooserMixin):
         result = []
 
         site = Site.find_for_request(self.request)
-        settings = get_active_campaign_settings(site)
+        settings = get_email_subscription_settings(site)
 
         if settings.enabled:
             client = settings.get_client()
@@ -54,8 +54,8 @@ class ActiveCampaignChooserMixin(ChooserMixin):
         return f"{item[self.title_field]}"
 
 
-class ActiveCampaignChooserViewSet(ChooserViewSet):
-    chooser_mixin_class = ActiveCampaignChooserMixin
+class EmailSubscriptionChooserViewSet(ChooserViewSet):
+    chooser_mixin_class = EmailSubscriptionChooserMixin
 
     def update_attrs(self, attrs):
         """

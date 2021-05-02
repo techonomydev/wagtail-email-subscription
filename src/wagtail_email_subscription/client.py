@@ -1,7 +1,27 @@
+from abc import ABC, abstractmethod
+
 from activecampaign import client
 
 
-class Client(client.Client):
+class AbstractClient(ABC):
+    @abstractmethod
+    def check_credentials(self):
+        pass
+
+    @abstractmethod
+    def get_list_choices(self):
+        pass
+
+    @abstractmethod
+    def create_or_update_subscriber(self, data):
+        pass
+
+    @abstractmethod
+    def add_subscriber_to_list(self, contact_id, list_id):
+        pass
+
+
+class ActiveCampaignClient(AbstractClient, client.Client):
     configured = False
 
     SUBSCRIBED = 1

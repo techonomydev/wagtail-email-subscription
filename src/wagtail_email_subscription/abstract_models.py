@@ -11,17 +11,17 @@ from wagtail.contrib.forms.models import (
 )
 
 from .chooser.widgets import ListChooserWidget
-from .utils import get_active_campaign_settings
+from .utils import get_email_subscription_settings
 
 logger = logging.getLogger(__name__)
 
 
-class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
+class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
     PAGE_FIELD = "page"
 
     synced = models.BooleanField(
         "Synced",
-        help_text="This record is synced with Active Campaign",
+        help_text="This record is synced with the Email Subscription Provider",
         default=False,
     )
 
@@ -32,16 +32,16 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
         data = super().get_data()
         return {**data, "synced": self.synced}
 
-    def handle_active_campaign_submission(self):
-        prepared_data = self.prepare_data_for_active_campain()
+    def handle_email_subscription_submission(self):
+        prepared_data = self.prepare_data_for_subscription_provider()
 
         if prepared_data == {} or "email" not in prepared_data:
             page = getattr(self, self.PAGE_FIELD)
             logger.error("%s The required email field is not in the formdata!", page)
         else:
-            self.post_data_to_active_campaign(prepared_data)
+            self.post_data_to_subscription_provider(prepared_data)
 
-    def prepare_data_for_active_campain(self):
+    def prepare_data_for_subscription_provider(self):
         data = self.get_data()
         page = getattr(self, self.PAGE_FIELD)
 
@@ -52,19 +52,21 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
 
         return {mapping: data[clean_name] for mapping, clean_name in qs}
 
-    def post_data_to_active_campaign(self, data):
+    def post_data_to_subscription_provider(self, data):
         page = getattr(self, self.PAGE_FIELD)
         site = page.get_site()
-        settings = get_active_campaign_settings(site)
+        settings = get_email_subscription_settings(site)
 
         if not settings.enabled:
-            logger.warning("Check your settings as Active Campaign is not enabled!")
+            logger.warning("The Email Subscription Provider is not enabled!")
             return
 
         client = settings.get_client()
 
         if not client.check_credentials():
-            logger.error("Active Campaign credentials are not set correctly!")
+            logger.error(
+                "The Email Subscription Provider credentials are not set correctly!"
+            )
             return
 
         logger.debug("Posting %s to active campaign", data)
@@ -81,20 +83,20 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
         self.save()
 
 
-class AbstractActiveCampaignForm(AbstractForm):
+class AbstractEmailSubscriptionForm(AbstractForm):
     FORM_FIELD = "form"
     FORM_FIELDS_REVERSE = "form_fields"
 
     enabled = models.BooleanField(
         "Enabled",
-        help_text="Enable or disable the Active Campaign integration of this form",
+        help_text="Enable or disable the Email Subscription integration of this form",
         default=False,
     )
     selected_list = models.CharField(
         "List",
         max_length=255,
         blank=True,
-        help_text="Select the Active Campaign list where the new subscribers will be a member of after submission",
+        help_text="Select the Email Subscription list where the new subscribers will be a member of after submission",
     )
 
     settings_panels = AbstractForm.settings_panels + [
@@ -103,7 +105,7 @@ class AbstractActiveCampaignForm(AbstractForm):
                 FieldPanel("enabled"),
                 FieldPanel("selected_list", widget=ListChooserWidget),
             ],
-            heading="Active Campaign settings",
+            heading="Email Subscription Settings",
         ),
     ]
 
@@ -113,8 +115,6 @@ class AbstractActiveCampaignForm(AbstractForm):
 
     content_panels = AbstractForm.content_panels
 
-    template = "wagtail_active_campaign/form_page.html"
-
     class Meta(AbstractForm.Meta):
         abstract = True
 
@@ -122,7 +122,7 @@ class AbstractActiveCampaignForm(AbstractForm):
         instance = super().process_form_submission(form)
 
         if self.enabled:
-            instance.handle_active_campaign_submission()
+            instance.handle_email_subscription_submission()
 
         return instance
 
@@ -135,7 +135,7 @@ class AbstractActiveCampaignForm(AbstractForm):
         if self.enabled and not self.selected_list:
             raise ValidationError(
                 {
-                    "selected_list": "Please select a valid list when the Active Campaign is enabled"
+                    "selected_list": "Please select a valid list when the Email Subscriptionis enabled"
                 }
             )
 
@@ -144,8 +144,9 @@ class AbstractActiveCampaignForm(AbstractForm):
         return fields + [("synced", "Synced")]
 
 
-class AbstractActiveCampaignFormField(AbstractFormField):
-    # TODO: Make this a setting and/or dynamic
+class AbstractEmailSubscriptionFormField(AbstractFormField):
+    # TODO: Make this a setting and/or dynamic, or query them in the site settings and
+    # store them
     ACTIVE_CAMPAIN_FIELDNAMES = (
         ("email", "email"),
         ("firstName", "firstName"),
@@ -157,7 +158,7 @@ class AbstractActiveCampaignFormField(AbstractFormField):
         "Map field to",
         max_length=255,
         blank=True,
-        help_text="Select the mapped Active Campaign field",
+        help_text="Select the mapped Email Subscription field",
         choices=ACTIVE_CAMPAIN_FIELDNAMES,
     )
 
@@ -165,3 +166,6 @@ class AbstractActiveCampaignFormField(AbstractFormField):
 
     class Meta(AbstractFormField.Meta):
         abstract = True
+
+
+AbstractEmailSubscriptionFormField.base_form_class = None

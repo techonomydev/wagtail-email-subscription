@@ -8,25 +8,25 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField
 
-from wagtail_active_campaign.abstract_models import (
-    AbstractActiveCampaignForm,
-    AbstractActiveCampaignFormField,
-    AbstractActiveCampaignFormSubmission,
+from wagtail_email_subscription.abstract_models import (
+    AbstractEmailSubscriptionForm,
+    AbstractEmailSubscriptionFormField,
+    AbstractEmailSubscriptionFormSubmission,
 )
 
 
-class FormPageSubmission(AbstractActiveCampaignFormSubmission):
+class FormPageSubmission(AbstractEmailSubscriptionFormSubmission):
     pass
 
 
-class FormPage(AbstractActiveCampaignForm):
+class FormPage(AbstractEmailSubscriptionForm):
     FORM_FIELD = "form_page"
     FORM_FIELDS_REVERSE = "form_page_fields"
 
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
 
-    content_panels = AbstractActiveCampaignForm.content_panels + [
+    content_panels = AbstractEmailSubscriptionForm.content_panels + [
         FieldPanel("intro", classname="full"),
         InlinePanel(FORM_FIELDS_REVERSE, label="form fields"),
         FieldPanel("thank_you_text", classname="full"),
@@ -36,10 +36,12 @@ class FormPage(AbstractActiveCampaignForm):
         [
             ObjectList(content_panels, heading="Form"),
             ObjectList(
-                AbstractActiveCampaignForm.submission_panels, heading="Submissions"
+                AbstractEmailSubscriptionForm.submission_panels, heading="Submissions"
             ),
-            ObjectList(AbstractActiveCampaignForm.promote_panels, heading="Promote"),
-            ObjectList(AbstractActiveCampaignForm.settings_panels, heading="Settings"),
+            ObjectList(AbstractEmailSubscriptionForm.promote_panels, heading="Promote"),
+            ObjectList(
+                AbstractEmailSubscriptionForm.settings_panels, heading="Settings"
+            ),
         ]
     )
 
@@ -49,12 +51,12 @@ class FormPage(AbstractActiveCampaignForm):
         return FormPageSubmission
 
 
-class FormPageField(AbstractActiveCampaignFormField):
+class FormPageField(AbstractEmailSubscriptionFormField):
     form_page = ParentalKey(
         "FormPage", on_delete=models.CASCADE, related_name="form_page_fields"
     )
 
-    class Meta(AbstractActiveCampaignFormField.Meta):
+    class Meta(AbstractEmailSubscriptionFormField.Meta):
         constraints = (
             models.UniqueConstraint(
                 name="A mapping field can only be used once for each form",
