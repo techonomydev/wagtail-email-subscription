@@ -27,12 +27,12 @@ class Client(client.Client):
         response = self.lists.retrieve_all_lists(limit=100)
         return response["lists"]
 
-    def create_or_update_contact(self, data):
+    def create_or_update_subscriber(self, data):
         post_data = {"contact": data}
         response = self.contacts.create_or_update_contact(post_data)
         return response["contact"]
 
-    def add_contact_to_list(self, contact_id, list_id):
+    def add_subscriber_to_list(self, contact_id, list_id):
         post_data = {
             "contactList": {
                 "list": list_id,

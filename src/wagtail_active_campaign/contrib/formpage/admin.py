@@ -8,7 +8,7 @@ class FormFieldInline(admin.TabularInline):
 
 
 @admin.register(FormPage)
-class ActiveCampaignFormPageAdmin(admin.ModelAdmin):
+class FormPageAdmin(admin.ModelAdmin):
     inlines = [
         FormFieldInline,
     ]

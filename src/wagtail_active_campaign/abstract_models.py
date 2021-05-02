@@ -68,11 +68,13 @@ class AbstractActiveCampaignFormSubmission(AbstractFormSubmission):
             return
 
         logger.debug("Posting %s to active campaign", data)
-        contact = client.create_or_update_contact(data)
+        contact = client.create_or_update_subscription(data)
         logger.debug("Contact added: %s", contact["id"])
 
         logger.debug("Adding contact %s to list %s", contact["id"], page.selected_list)
-        client.add_contact_to_list(contact_id=contact["id"], list_id=page.selected_list)
+        client.add_subscriber_to_list(
+            contact_id=contact["id"], list_id=page.selected_list
+        )
         logger.debug("Contact %s added to list %s", contact["id"], page.selected_list)
 
         self.synced = True
