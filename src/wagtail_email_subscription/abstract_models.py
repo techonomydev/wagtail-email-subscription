@@ -70,7 +70,7 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
             return
 
         logger.debug("Posting %s to active campaign", data)
-        contact = client.create_or_update_subscription(data)
+        contact = client.create_or_update_subscriber(data)
         logger.debug("Contact added: %s", contact["id"])
 
         logger.debug("Adding contact %s to list %s", contact["id"], page.selected_list)
