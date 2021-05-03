@@ -24,6 +24,7 @@ class AbstractClient(ABC):
 class ActiveCampaignClient(AbstractClient, client.Client):
     configured = False
 
+    MANDATORY_FIELDS = ("email",)
     SUBSCRIBED = 1
     UNSUBSCRIBED = 2
 

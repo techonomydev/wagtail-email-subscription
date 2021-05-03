@@ -129,15 +129,30 @@ class AbstractEmailSubscriptionForm(AbstractForm):
     def get_form_fields(self):
         return getattr(self, self.FORM_FIELDS_REVERSE).all()
 
+    def get_chosen_mapping_fields(self):
+        qs = getattr(self, self.FORM_FIELDS_REVERSE)
+        qs = qs.exclude(mapping__exact="")
+        return qs.values_list("mapping", flat=True)
+
     def clean(self):
         super().clean()
 
         if self.enabled and not self.selected_list:
             raise ValidationError(
                 {
-                    "selected_list": "Please select a valid list when the Email Subscriptionis enabled"
+                    "selected_list": "Please select a valid list when the Email Subscription is enabled"
                 }
             )
+
+        if self.enabled and self.selected_list:
+            settings = get_email_subscription_settings(self.get_site())
+            client = settings.get_client()
+            mapped = self.get_chosen_mapping_fields()
+
+            if not all(item in mapped for item in client.MANDATORY_FIELDS):
+                raise ValidationError(
+                    "Not all mandatory fields are mapped to form fields, please select the correct mapping"
+                )
 
     def get_data_fields(self):
         fields = super().get_data_fields()
