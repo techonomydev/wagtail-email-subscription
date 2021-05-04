@@ -42,7 +42,7 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
 
     def prepare_data_for_subscription_provider(self):
         data = self.get_data()
-        page = getattr(self, self.PAGE_FIELD)
+        page = getattr(self, self.PAGE_FIELD).specific  # pylint: disable=no-member
 
         # only use the fields which have a filled out mapping field
         qs = getattr(page, page.FORM_FIELDS_REVERSE)
@@ -52,7 +52,7 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
         return {mapping: data[clean_name] for mapping, clean_name in qs}
 
     def post_data_to_subscription_provider(self):
-        page = getattr(self, self.PAGE_FIELD)
+        page = getattr(self, self.PAGE_FIELD).specific  # pylint: disable=no-member
         site = page.get_site()
 
         settings = get_email_subscription_settings(site)
