@@ -51,9 +51,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "generic_chooser",
     "wagtail_email_subscription",
     "wagtail_email_subscription.contrib.formpage",
+    "generic_chooser",
 ]
 
 MIDDLEWARE = [
