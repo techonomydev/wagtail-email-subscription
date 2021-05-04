@@ -20,9 +20,11 @@ class EmailSubscriptionChooserWidget(AdminChooser):
 
     def get_choose_modal_url(self):
         choose_modal_url = super().get_choose_modal_url()
-        site_id = self.page_instance.get_site().pk
-        url_param = urlencode({"site_id": site_id})
-        return f"{choose_modal_url}?{url_param}"
+        site = self.page_instance.get_site()
+        if site is not None:
+            url_param = urlencode({"site_id": site.pk})
+            choose_modal_url = f"{choose_modal_url}?{url_param}"
+        return choose_modal_url
 
 
 class ListChooserWidget(EmailSubscriptionChooserWidget):
