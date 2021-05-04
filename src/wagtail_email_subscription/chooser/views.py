@@ -8,6 +8,6 @@ class EmailSubscriptionListChooserViewSet(EmailSubscriptionChooserViewSet):
 
     def call_client(self, client):
         result = cache.get_or_set(
-            "email_subscription_list_choices", client.get_list_choices, 60
+            f"{client.unique_hash()}_get_list_choices", client.get_list_choices, 60
         )
         return list(result)

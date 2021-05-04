@@ -1,3 +1,4 @@
+import hashlib
 from abc import ABC, abstractmethod
 
 from activecampaign import client
@@ -6,6 +7,10 @@ from activecampaign import client
 class AbstractClient(ABC):
     @abstractmethod
     def check_credentials(self):
+        pass
+
+    @abstractmethod
+    def unique_hash(self):
         pass
 
     @abstractmethod
@@ -41,6 +46,10 @@ class ActiveCampaignClient(AbstractClient, client.Client):
         if isinstance(response, str) and len(response) == 0:
             return False
         return True
+
+    def unique_hash(self):
+        if self.configured:
+            return hashlib.md5(self.api_key.encode()).hexdigest()
 
     def get_list_choices(self):
         # TODO: Check for nr of results and do as much lookups as needed, or implement
