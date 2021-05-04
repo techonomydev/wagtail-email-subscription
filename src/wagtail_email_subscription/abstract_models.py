@@ -10,7 +10,7 @@ from wagtail.contrib.forms.models import (
     AbstractFormSubmission,
 )
 
-from .chooser.widgets import ListChooserWidget
+from .chooser.panels import FieldPanelWithPage
 from .utils import get_email_subscription_settings
 
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ class AbstractEmailSubscriptionForm(AbstractForm):
         MultiFieldPanel(
             [
                 FieldPanel("enabled"),
-                FieldPanel("selected_list", widget=ListChooserWidget),
+                FieldPanelWithPage("selected_list"),
             ],
             heading="Email Subscription Settings",
         ),
