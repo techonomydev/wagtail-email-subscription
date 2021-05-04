@@ -1,5 +1,5 @@
 # wagtail-email-subscription
-[![Django CI](https://github.com/maerteijn/wagtail-email-subscription/actions/workflows/ci.yml/badge.svg)](https://github.com/maerteijn/wagtail-email-subscription/actions/workflows/ci.yml)
+[![Django CI](https://github.com/techonomydev/wagtail-email-subscription/actions/workflows/ci.yml/badge.svg)](https://github.com/techonomydev/wagtail-email-subscription/actions/workflows/ci.yml)
 
 Wagtail form builder integration with email marketing subscription platforms like Active Campaign. This package ships with a fully working app which also demonstrates how you can integrate this in your own wagtail website.
 
@@ -23,11 +23,12 @@ Add the following to your `INSTALLED_APPS`:
 ```python
 INSTALLED_APPS = [
     ...
-    "generic_chooser",
     "wagtail_email_subscription",
     "wagtail_email_subscription.contrib.formpage",
+    "generic_chooser",
 ]
 ```
+*Note that the order is important here: `generic_chooser` should be after `"wagtail_email_subscription`*
 
 And finally run the migrations:
 ```bash
