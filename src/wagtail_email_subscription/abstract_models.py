@@ -144,16 +144,6 @@ class AbstractEmailSubscriptionForm(AbstractForm):
                 }
             )
 
-        if self.enabled and self.selected_list:
-            settings = get_email_subscription_settings(self.get_site())
-            client = settings.get_client()
-            mapped = self.get_chosen_mapping_fields()
-
-            if not all(item in mapped for item in client.MANDATORY_FIELDS):
-                raise ValidationError(
-                    "Not all mandatory fields are mapped to form fields, please select the correct mapping"
-                )
-
     def get_data_fields(self):
         fields = super().get_data_fields()
         return fields + [("synced", "Synced")]
