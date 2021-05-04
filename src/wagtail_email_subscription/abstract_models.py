@@ -36,10 +36,9 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
         prepared_data = self.prepare_data_for_subscription_provider()
 
         if prepared_data == {} or "email" not in prepared_data:
-            page = getattr(self, self.PAGE_FIELD)
-            logger.error("%s The required email field is not in the formdata!", page)
+            logger.error("The required email field is not in the formdata!")
         else:
-            self.post_data_to_subscription_provider(prepared_data)
+            self.post_data_to_subscription_provider()
 
     def prepare_data_for_subscription_provider(self):
         data = self.get_data()
@@ -52,7 +51,7 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
 
         return {mapping: data[clean_name] for mapping, clean_name in qs}
 
-    def post_data_to_subscription_provider(self, data):
+    def post_data_to_subscription_provider(self):
         page = getattr(self, self.PAGE_FIELD)
         site = page.get_site()
 
@@ -69,6 +68,8 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
                 "The Email Subscription Provider credentials are not set correctly!"
             )
             return
+
+        data = self.prepare_data_for_subscription_provider()
 
         logger.debug("Posting %s to active campaign", data)
         contact = client.create_or_update_subscriber(data)
