@@ -16,7 +16,7 @@ pip install wagtail-email-subscription
 
 Or from github directly:
 ```bash
-pip install https://github.com/maerteijn/wagtail-email-subscription.git
+pip install https://github.com/techonomydev/wagtail-email-subscription.git
 ```
 
 Add the following to your `INSTALLED_APPS`:
@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "generic_chooser",
 ]
 ```
-*Note that the order is important here: `generic_chooser` should be after `"wagtail_email_subscription`*
+*Note that the order is important here: `generic_chooser` should be after `wagtail_email_subscription`*
 
 And finally run the migrations:
 ```bash
@@ -45,7 +45,7 @@ manage.py migrate
 
 ## Development (with poetry)
 ```bash
-git clone https://github.com/maerteijn/wagtail-email-subscription
+git clone https://github.com/techonomydev/wagtail-email-subscription
 
 # This will also create a virtualenv when not activated
 make install
