@@ -11,6 +11,7 @@ from wagtail.contrib.forms.models import (
 )
 
 from .chooser.panels import EmailSubscriptionListPanel
+from .exceptions import APIException
 from .utils import get_email_subscription_settings
 
 logger = logging.getLogger(__name__)
@@ -72,17 +73,25 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
         data = self.prepare_data_for_subscription_provider()
 
         logger.debug("Posting %s to active campaign", data)
-        contact = client.create_or_update_subscriber(data)
-        logger.debug("Contact added: %s", contact["id"])
 
-        logger.debug("Adding contact %s to list %s", contact["id"], page.selected_list)
-        client.add_subscriber_to_list(
-            contact_id=contact["id"], list_id=page.selected_list
-        )
-        logger.debug("Contact %s added to list %s", contact["id"], page.selected_list)
+        try:
+            contact = client.create_or_update_subscriber(data)
+            logger.debug("Contact added: %s", contact["id"])
 
-        self.synced = True
-        self.save()
+            logger.debug(
+                "Adding contact %s to list %s", contact["id"], page.selected_list
+            )
+            client.add_subscriber_to_list(
+                contact_id=contact["id"], list_id=page.selected_list
+            )
+            logger.debug(
+                "Contact %s added to list %s", contact["id"], page.selected_list
+            )
+
+            self.synced = True
+            self.save()
+        except APIException as e:
+            logger.error(str(e), exc_info=True)
 
 
 class AbstractEmailSubscriptionForm(AbstractForm):
