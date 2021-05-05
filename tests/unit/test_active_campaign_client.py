@@ -53,6 +53,16 @@ def test_client_create_or_update_subscriber(active_campaign_client):
     assert response["email"] == "test@test.com"
 
 
+def test_client_create_or_update_subscriber_error(active_campaign_client):
+    data = {
+        "email": "error@error.com",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+    }
+    with pytest.raises(APIException):
+        active_campaign_client.create_or_update_subscriber(data)
+
+
 def test_client_add_subscriber_to_list(active_campaign_client):
     response = active_campaign_client.add_subscriber_to_list(
         contact_id="1", list_id="1"

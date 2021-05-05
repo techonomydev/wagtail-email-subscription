@@ -9,6 +9,13 @@ from . import testdata
 def mock_active_campaign_requests(requests_mock):
     response_headers = {"content-type": "application/json"}
 
+    def create_update_contact_callback(
+        request, context
+    ):  # pylint: disable=unused-argument
+        if request.json()["contact"]["email"] == "error@error.com":
+            return testdata.CREATE_UPDATE_CONTACT_ERROR
+        return testdata.CREATE_UPDATE_CONTACT_OUTPUT
+
     def lists_callback(request, context):  # pylint: disable=unused-argument
         if request.headers["Api-Token"] == "invalid-api-key":
             # The real API just returns an empty string when the api key
@@ -36,7 +43,7 @@ def mock_active_campaign_requests(requests_mock):
 
     requests_mock.post(
         "https://valid-server.api.activecampaign.com/api/3/contact/sync",
-        json=testdata.CREATE_UPDATE_CONTACT_OUTPUT,
+        json=create_update_contact_callback,
         headers=response_headers,
     )
 

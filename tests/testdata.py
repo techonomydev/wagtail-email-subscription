@@ -25,6 +25,15 @@ CREATE_UPDATE_CONTACT_OUTPUT = {
     }
 }
 
+CREATE_UPDATE_CONTACT_ERROR = {
+    "errors": [
+        {
+            "title": "The contact could not be created",
+            "detail": "",
+        }
+    ]
+}
+
 UPDATE_LIST_STATUS_OUTPUT = {"contactList": {"contact": "1", "list": "1"}}
 
 UPDATE_LIST_STATUS_ERROR = {
