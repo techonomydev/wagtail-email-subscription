@@ -42,6 +42,7 @@ pytest-cov = "~2.11"
 pytest-env = "^0.6.2"
 poetry-dynamic-versioning = "^0.12.6"
 pytest-pythonpath = "^0.7.3"
+requests-mock = "^1.9.2"
 
 [tool.poetry-dynamic-versioning]
 enable = true
