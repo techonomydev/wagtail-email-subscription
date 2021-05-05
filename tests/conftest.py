@@ -3,7 +3,7 @@ import pytest
 from wagtail_email_subscription.client import ActiveCampaignClient
 
 from . import testdata
-from .factories import SiteFactory
+from .factories import FormPageSubmissionFactory, SiteFactory
 
 
 @pytest.fixture(autouse=True)
@@ -73,3 +73,8 @@ def invalid_active_campaign_client():
 def wagtail_site(django_db_setup, django_db_blocker):  # pylint: disable=unused-argument
     with django_db_blocker.unblock():
         return SiteFactory()
+
+
+@pytest.fixture
+def form_page_submission(wagtail_site):  # pylint: disable=redefined-outer-name
+    return FormPageSubmissionFactory(page=wagtail_site.root_page)

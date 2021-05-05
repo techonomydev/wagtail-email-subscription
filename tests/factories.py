@@ -2,7 +2,11 @@ import factory
 import wagtail_factories
 from wagtail.core.models import Page
 
-from wagtail_email_subscription.contrib.formpage.models import FormPage, FormPageField
+from wagtail_email_subscription.contrib.formpage.models import (
+    FormPage,
+    FormPageField,
+    FormPageSubmission,
+)
 from wagtail_email_subscription.models import EmailSubscriptionSettings
 
 
@@ -44,8 +48,16 @@ class SiteFactory(wagtail_factories.SiteFactory):
     hostname = "localhost"
     port = 8000
     site_name = "My Wagtail Email Subscription Test Site"
-    is_default_site = False
+    is_default_site = True
     root_page = factory.SubFactory(FormPageFactory)
     settings = factory.RelatedFactory(
         EmailSubscriptionSettingsFactory, factory_related_name="site"
     )
+
+
+class FormPageSubmissionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = FormPageSubmission
+
+    form_data = '{"email": "test@test.com"}'
+    page = factory.SubFactory(FormPageFactory)
