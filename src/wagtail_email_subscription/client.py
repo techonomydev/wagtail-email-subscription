@@ -1,7 +1,12 @@
 import hashlib
+import logging
 from abc import ABC, abstractmethod
 
 from activecampaign import client
+
+from .exceptions import APIException
+
+logger = logging.getLogger(__name__)
 
 
 class AbstractClient(ABC):
@@ -9,12 +14,13 @@ class AbstractClient(ABC):
     def check_credentials(self):
         pass
 
+    @property
     @abstractmethod
     def unique_hash(self):
         pass
 
     @abstractmethod
-    def get_list_choices(self):
+    def get_lists(self):
         pass
 
     @abstractmethod
@@ -38,20 +44,25 @@ class ActiveCampaignClient(AbstractClient, client.Client):
             self.configured = True
             super().__init__(url, api_key)
 
-    def check_credentials(self):
-        if not self.configured:
-            return False
-
-        response = self.lists.retrieve_all_lists()
-        if isinstance(response, str) and len(response) == 0:
-            return False
-        return True
-
+    @property
     def unique_hash(self):
         if self.configured:
             return hashlib.md5(self.api_key.encode()).hexdigest()
 
-    def get_list_choices(self):
+    def check_credentials(self):
+        if not self.configured:
+            return False
+        try:
+            response = self.lists.retrieve_all_lists(limit=1)
+        except ConnectionError as e:
+            logger.error(str(e))
+            return False
+
+        if isinstance(response, str) and len(response) == 0:
+            return False
+        return True
+
+    def get_lists(self):
         # TODO: Check for nr of results and do as much lookups as needed, or implement
         # pagination
         response = self.lists.retrieve_all_lists(limit=100)
@@ -60,6 +71,8 @@ class ActiveCampaignClient(AbstractClient, client.Client):
     def create_or_update_subscriber(self, data):
         post_data = {"contact": data}
         response = self.contacts.create_or_update_contact(post_data)
+        if "errors" in response:
+            raise APIException(response["errors"])
         return response["contact"]
 
     def add_subscriber_to_list(self, contact_id, list_id):
@@ -71,4 +84,7 @@ class ActiveCampaignClient(AbstractClient, client.Client):
             }
         }
         response = self.contacts.update_list_status_for_a_contact(post_data)
+        if "errors" in response:
+            raise APIException(response["errors"])
+
         return response["contactList"]
