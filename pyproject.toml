@@ -43,6 +43,7 @@ pytest-env = "^0.6.2"
 poetry-dynamic-versioning = "^0.12.6"
 pytest-pythonpath = "^0.7.3"
 requests-mock = "^1.9.2"
+wagtail-factories = "^2.0.1"
 
 [tool.poetry-dynamic-versioning]
 enable = true

@@ -3,6 +3,7 @@ import pytest
 from wagtail_email_subscription.client import ActiveCampaignClient
 
 from . import testdata
+from .factories import SiteFactory
 
 
 @pytest.fixture(autouse=True)
@@ -66,3 +67,9 @@ def invalid_active_campaign_client():
     return ActiveCampaignClient(
         url="https://invalid-server.api.activecampaign.com", api_key="invalid-key"
     )
+
+
+@pytest.fixture(scope="session")
+def wagtail_site(django_db_setup, django_db_blocker):  # pylint: disable=unused-argument
+    with django_db_blocker.unblock():
+        return SiteFactory()
