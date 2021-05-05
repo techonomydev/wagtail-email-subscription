@@ -12,24 +12,24 @@ logger = logging.getLogger(__name__)
 class AbstractClient(ABC):
     @abstractmethod
     def check_credentials(self):
-        pass
+        raise NotImplementedError
 
     @property
     @abstractmethod
     def unique_hash(self):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def get_lists(self):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def create_or_update_subscriber(self, data):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def add_subscriber_to_list(self, contact_id, list_id):
-        pass
+        raise NotImplementedError
 
 
 class ActiveCampaignClient(AbstractClient, client.Client):

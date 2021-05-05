@@ -83,3 +83,4 @@ omit = ["**/migrations/**", "**/tests/**", "sandbox/**"]
 
 [tool.coverage.report]
 show_missing = true
+exclude_lines = ["raise NotImplementedError"]
