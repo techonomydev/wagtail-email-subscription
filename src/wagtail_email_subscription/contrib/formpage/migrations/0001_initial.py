@@ -64,8 +64,4 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
         ),
-        migrations.AddConstraint(
-            model_name='formpagefield',
-            constraint=models.UniqueConstraint(fields=('form_page', 'mapping'), name='A mapping field can only be used once for each form'),
-        ),
     ]

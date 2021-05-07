@@ -55,11 +55,3 @@ class FormPageField(AbstractEmailSubscriptionFormField):
     form_page = ParentalKey(
         "FormPage", on_delete=models.CASCADE, related_name="form_page_fields"
     )
-
-    class Meta(AbstractEmailSubscriptionFormField.Meta):
-        constraints = (
-            models.UniqueConstraint(
-                name="A mapping field can only be used once for each form",
-                fields=(FormPage.FORM_FIELD, "mapping"),
-            ),
-        )
