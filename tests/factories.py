@@ -23,7 +23,7 @@ class FormPageFieldFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = FormPageField
 
-    clean_name = "email"
+    form_page = factory.SubFactory("tests.factories.FormPageFactory")
     label = "Email"
     field_type = "email"
     mapping = "email"
