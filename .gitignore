@@ -7,6 +7,7 @@ __pycache__/
 /node_modules
 /pip-wheel-metadata
 .coverage
+coverage.xml
 pip-selfcheck.json
 pyvenv.cfg
 .idea/

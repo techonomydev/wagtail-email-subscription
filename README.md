@@ -1,6 +1,9 @@
 # wagtail-email-subscription
 [![Django CI](https://github.com/techonomydev/wagtail-email-subscription/actions/workflows/ci.yml/badge.svg)](https://github.com/techonomydev/wagtail-email-subscription/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/techonomydev/wagtail-email-subscription/branch/main/graph/badge.svg?token=BGFHK3UIW7)](https://codecov.io/gh/techonomydev/wagtail-email-subscription)
 
+
+https://codecov.io/github/django-oscar/django-oscar-api/coverage.svg?branch=master
 Wagtail form builder integration with email marketing subscription platforms like Active Campaign. This package ships with a fully working app which also demonstrates how you can integrate this in your own wagtail website.
 
 ## Prerequisites

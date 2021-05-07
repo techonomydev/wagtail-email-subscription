@@ -78,3 +78,7 @@ jobs:
         run: |
           source $(poetry env info --path)/bin/activate
           pytest
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
