@@ -1,4 +1,19 @@
 import pytest
+from django.core.exceptions import ValidationError
+
+
+@pytest.mark.django_db
+def test_settings(email_subscription_setttings):
+    assert email_subscription_setttings.clean() is None
+
+    email_subscription_setttings.api_key = "invalid-api-key"
+    with pytest.raises(ValidationError):
+        email_subscription_setttings.clean()
+
+    # when disabled, the validation in the clean method will pass
+    email_subscription_setttings.api_key = "invalid-api-key"
+    email_subscription_setttings.enabled = False
+    assert email_subscription_setttings.clean() is None
 
 
 @pytest.mark.django_db
