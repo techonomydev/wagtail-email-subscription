@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlencode
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -67,6 +68,15 @@ class EmailSubscriptionChooserMixin(ChooserMixin):
         chosen_url = super().get_chosen_url(instance)
         url_param = urlencode(self.request.GET)
         return f"{chosen_url}?{url_param}" if url_param else chosen_url
+
+    def get_chosen_response_data(self, item):
+        return {
+            "id": json.dumps(
+                {"id": item[self.id_field], "title": item[self.title_field]}
+            ),
+            "string": self.get_object_string(item),
+            "edit_link": self.get_edit_item_url(item),
+        }
 
 
 class EmailSubscriptionChooserViewSet(ChooserViewSet):
