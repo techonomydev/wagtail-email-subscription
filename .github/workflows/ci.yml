@@ -13,20 +13,6 @@ defaults:
 jobs:
   setup-and-linting:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: wagtail-email-subscription
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
@@ -54,6 +40,20 @@ jobs:
   run-tests:
     needs: setup-and-linting
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: wagtail-email-subscription
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     strategy:
       fail-fast: true
       matrix:
@@ -75,6 +75,8 @@ jobs:
           poetry install
           pip install "django~=${{ matrix.django-version }}.0"
       - name: Run the testsuite
+        env:
+          DJANGO_SETTINGS_MODULE: sandbox.settings.github-ci
         run: |
           source $(poetry env info --path)/bin/activate
           pytest
