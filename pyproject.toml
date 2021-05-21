@@ -78,7 +78,7 @@ use_parentheses = true
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "sandbox.settings"
 testpaths = "tests/"
-addopts = "--reuse-db --cov=wagtail_email_subscription --cov-report xml -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
+addopts = "--create-db --cov=wagtail_email_subscription --cov-report xml -W ignore::django.utils.deprecation.RemovedInDjango40Warning"
 python_paths = "sandbox"
 
 [tool.coverage.run]
