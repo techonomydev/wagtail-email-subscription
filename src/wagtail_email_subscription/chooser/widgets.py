@@ -23,7 +23,7 @@ class EmailSubscriptionChooserWidget(AdminChooser):
         try:
             return instance["title"]
         except KeyError:
-            return instance
+            return ""
 
     def get_choose_modal_url(self):
         choose_modal_url = super().get_choose_modal_url()

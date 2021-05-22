@@ -33,7 +33,7 @@ def test_page_form_process_form_submission(wagtail_site, mocker):
     assert patched.called is False
 
     # Let's configure the page so handle_email_subscription_submission will be called
-    page.selected_list = "1"
+    page.selected_list = {"id": "1", "title": "My List"}
     page.enabled = True
     page.save()
 

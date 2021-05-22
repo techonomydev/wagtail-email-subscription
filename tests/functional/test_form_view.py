@@ -7,8 +7,8 @@ from wagtail_email_subscription.contrib.formpage.models import FormPageSubmissio
 def test_form_view(wagtail_site, client):
     assert FormPageSubmission.objects.count() == 0  # pylint: disable=no-member
 
-    # enable the submission via the api
-    wagtail_site.root_page.selected_list = "1"
+    # Enable the submission via the api
+    wagtail_site.root_page.selected_list = {"id": "1", "title": "My List"}
     wagtail_site.root_page.enabled = True
     wagtail_site.root_page.save()
 

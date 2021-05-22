@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from django.urls import reverse
 
@@ -56,5 +58,7 @@ def test_chosen_list_chosen(wagtail_site, admin_client):
 
         result = response.json()
         assert "result" in result
-        assert result["result"]["id"] == item["id"]
-        assert result["result"]["string"] == item["name"]
+
+        parsed = json.loads(result["result"]["id"])
+        assert parsed["id"] == item["id"]
+        assert parsed["title"] == item["name"]
