@@ -4,7 +4,7 @@ from wagtail_email_subscription.client import ActiveCampaignClient
 from wagtail_email_subscription.models import EmailSubscriptionSettings
 
 from . import testdata
-from .factories import FormPageSubmissionFactory, SiteFactory
+from .factories import FormPageSubmissionFactory, LocaleFactory, SiteFactory
 
 
 @pytest.fixture(autouse=True)
@@ -73,6 +73,7 @@ def invalid_active_campaign_client():
 @pytest.fixture(scope="session")
 def wagtail_site(django_db_setup, django_db_blocker):  # pylint: disable=unused-argument
     with django_db_blocker.unblock():
+        LocaleFactory()
         return SiteFactory()
 
 
