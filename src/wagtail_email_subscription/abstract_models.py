@@ -79,13 +79,13 @@ class AbstractEmailSubscriptionFormSubmission(AbstractFormSubmission):
             logger.debug("Contact added: %s", contact["id"])
 
             logger.debug(
-                "Adding contact %s to list %s", contact["id"], page.selected_list
+                "Adding contact %s to list %s", contact["id"], page.selected_list["id"]
             )
             client.add_subscriber_to_list(
-                contact_id=contact["id"], list_id=page.selected_list
+                contact_id=contact["id"], list_id=page.selected_list["id"]
             )
             logger.debug(
-                "Contact %s added to list %s", contact["id"], page.selected_list
+                "Contact %s added to list %s", contact["id"], page.selected_list["id"]
             )
 
             self.synced = True
@@ -103,10 +103,10 @@ class AbstractEmailSubscriptionForm(AbstractForm):
         help_text="Enable or disable the Email Subscription integration of this form",
         default=False,
     )
-    selected_list = models.CharField(
+    selected_list = models.JSONField(
         "List",
-        max_length=255,
         blank=True,
+        null=True,
         help_text="Select the Email Subscription list where the new subscribers will be a member of after submission",
     )
 

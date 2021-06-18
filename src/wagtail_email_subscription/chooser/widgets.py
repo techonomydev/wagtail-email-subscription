@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlencode
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,11 +13,17 @@ class EmailSubscriptionChooserWidget(AdminChooser):
         super().__init__(*args, **kwargs)
 
     def get_instance(self, value):
-        # value is the stored value, the value of a CharField or IntegerField
-        # from a Django model
+        # value is the stored value, so the raw content of a JSON Field
+        value = json.loads(value)
         if not value:
             raise ObjectDoesNotExist(str(value))
         return value
+
+    def get_title(self, instance):
+        try:
+            return instance["title"]
+        except KeyError:
+            return ""
 
     def get_choose_modal_url(self):
         choose_modal_url = super().get_choose_modal_url()
