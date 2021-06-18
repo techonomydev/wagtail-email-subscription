@@ -79,9 +79,8 @@ use_parentheses = true
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "sandbox.settings"
 testpaths = "tests/"
-addopts = "--create-db --no-migrations --cov=wagtail_email_subscription --cov-report xml"
+addopts = "--create-db --no-migrations --cov=wagtail_email_subscription --cov-report xml -W ignore"
 python_paths = "sandbox"
-filterwarnings = ["ignore::django.utils.deprecation.RemovedInDjango40Warning"]
 
 [tool.coverage.run]
 omit = ["**/migrations/**", "**/tests/**", "sandbox/**"]
