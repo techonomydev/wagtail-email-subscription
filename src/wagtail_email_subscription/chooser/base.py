@@ -44,7 +44,7 @@ class EmailSubscriptionChooserMixin(ChooserMixin):
                 result = self.filter_result_by_search_term(result, search_term)
         return result
 
-    def get_object(self, item_id):  # pylint: disable=W0221
+    def get_object(self, item_id):  # pylint: disable=W0221,W0237
         all_items = self.get_object_list()
         selected_object = next(
             (item for item in all_items if item[self.id_field] == item_id), None
@@ -53,10 +53,10 @@ class EmailSubscriptionChooserMixin(ChooserMixin):
             raise ObjectDoesNotExist(str(item_id))
         return selected_object
 
-    def get_object_id(self, item):  # pylint: disable=W0221
+    def get_object_id(self, item):  # pylint: disable=W0221,W0237
         return item[self.id_field]
 
-    def get_object_string(self, item):  # pylint: disable=W0221
+    def get_object_string(self, item):  # pylint: disable=W0221,W0237
         return f"{item[self.title_field]}"
 
     def get_choose_url(self):
