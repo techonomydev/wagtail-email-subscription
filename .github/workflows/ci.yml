@@ -57,9 +57,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: [3.7, 3.9]
+        python-version: ["3.9", "3.10"]
         django-version: [3.2]
-        wagtail-version: [2.13, 2.14, 2.15]
+        wagtail-version: ["2.14", "2.15", "2.16"]
     steps:
       - name: Download src dir
         uses: actions/download-artifact@v2
