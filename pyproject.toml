@@ -24,7 +24,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.9"
 Django = "^3.2"
-wagtail = "~2.14"
+wagtail = "~2.15"
 activecampaign-python = "^1.0.3"
 wagtail-generic-chooser = "^0.2.1"
 
