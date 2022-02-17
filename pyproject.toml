@@ -14,7 +14,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.9"
 ]
 packages = [
@@ -22,8 +21,8 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-Django = "~3.2"
+python = "^3.9"
+Django = "^3.2"
 wagtail = "~2.15"
 activecampaign-python = "^1.0.3"
 wagtail-generic-chooser = "^0.2.1"
