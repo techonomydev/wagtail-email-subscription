@@ -868,7 +868,7 @@ test = ["pytest (==6.0.1)", "pytest-django (==3.9.0)", "pytest-cov (==2.7.1)", "
 
 [[package]]
 name = "wagtail-generic-chooser"
-version = "0.2.1"
+version = "0.3.1"
 description = "A toolkit for custom chooser popups in Wagtail"
 category = "main"
 optional = false
@@ -933,7 +933,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "6ca68a3acb6d3cba4e001e2ad4caa809c15c4f50f5e789e6b328d97c13b6ade5"
+content-hash = "1cd67fd8ec8c6f6ba6eef0ae367712ed5929b618f8fded88fb8d457437c3f446"
 
 [metadata.files]
 activecampaign-python = [
@@ -1462,8 +1462,8 @@ wagtail-factories = [
     {file = "wagtail_factories-2.0.1.tar.gz", hash = "sha256:3eeb55199f2c9ffbfe14979a94766d724c9e9f4d8f561df61097884e63bd537f"},
 ]
 wagtail-generic-chooser = [
-    {file = "wagtail-generic-chooser-0.2.1.tar.gz", hash = "sha256:b65769cfd324e2531997245a9f0a64f5961da88587392d79353a1458314c5aa3"},
-    {file = "wagtail_generic_chooser-0.2.1-py3-none-any.whl", hash = "sha256:8d8c5eaf3613744d9d5af2ca679b0fec121d4019442683d7adbb774467763b01"},
+    {file = "wagtail-generic-chooser-0.3.1.tar.gz", hash = "sha256:2757d762f8c4dae26f93e25a23c0c6373dbca9934c0f08e7e3655a17d18994a4"},
+    {file = "wagtail_generic_chooser-0.3.1-py3-none-any.whl", hash = "sha256:abae0e98a103fc339f16e86b0c9b8ca37fd61c110a7b04e805711abf0edd19c5"},
 ]
 webencodings = [
     {file = "webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"},
