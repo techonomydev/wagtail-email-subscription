@@ -839,7 +839,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "wagtail"
-version = "2.16.2"
+version = "2.16.3"
 description = "A Django content management system."
 category = "main"
 optional = false
@@ -866,7 +866,7 @@ xlsxwriter = ">=1.2.8,<4.0"
 
 [package.extras]
 docs = ["Sphinx (>=1.5.2)", "pyenchant (>=3.1.1,<4)", "recommonmark (>=0.7.1)", "sphinx-autobuild (>=0.6.0)", "sphinx-wagtail-theme (==5.0.4)", "sphinxcontrib-spelling (>=5.4.0,<6)"]
-testing = ["Jinja2 (>=3.0,<3.1)", "Unidecode (>=0.04.14,<2.0)", "azure-mgmt-cdn (>=5.1,<6.0)", "azure-mgmt-frontdoor (>=0.3,<0.4)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "doc8 (==0.8.1)", "docutils (==0.15)", "elasticsearch (>=5.0,<6.0)", "flake8 (>=3.6.0)", "flake8-blind-except (==0.1.1)", "flake8-print (==2.0.2)", "freezegun (>=0.3.8)", "isort (==5.6.4)", "jinjalint (>=0.5)", "openpyxl (>=2.6.4)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)"]
+testing = ["Jinja2 (>=3.0,<3.1)", "Unidecode (>=0.04.14,<2.0)", "azure-mgmt-cdn (>=5.1,<6.0)", "azure-mgmt-frontdoor (>=0.3,<0.4)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "doc8 (==0.8.1)", "docutils (==0.15)", "elasticsearch (>=5.0,<6.0)", "flake8 (==4.0.1)", "flake8-blind-except (==0.1.1)", "flake8-print (==2.0.2)", "freezegun (>=0.3.8)", "isort (==5.6.4)", "jinjalint (>=0.5)", "openpyxl (>=2.6.4)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)"]
 
 [[package]]
 name = "wagtail-factories"
@@ -1485,8 +1485,8 @@ urllib3 = [
     {file = "urllib3-1.26.8.tar.gz", hash = "sha256:0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"},
 ]
 wagtail = [
-    {file = "wagtail-2.16.2-py3-none-any.whl", hash = "sha256:d48ea4d45d09f8482a1b4632e0dca1aad99489cc26386f2af32b306e014832ba"},
-    {file = "wagtail-2.16.2.tar.gz", hash = "sha256:ee23dc1ba39d4785d20acc95274b29dbcf83f5d9fd670555f541f2a88eec9daa"},
+    {file = "wagtail-2.16.3-py3-none-any.whl", hash = "sha256:3b52f0e1a4bcad66e57eaa341025e90a6dcd40170f7adb132e9e9df9efa978c9"},
+    {file = "wagtail-2.16.3.tar.gz", hash = "sha256:a1f04513f06c760208698578367f03b3af5400f05d36b94e4a8ce07ee30d42fc"},
 ]
 wagtail-factories = [
     {file = "wagtail_factories-2.0.1-py2.py3-none-any.whl", hash = "sha256:e2bd1a22e67b70e1603fc292e97f6f998ee0169477e1f71b5c53368630f1d088"},
