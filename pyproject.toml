@@ -74,10 +74,10 @@ multi_line_output = 3
 use_parentheses = true
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "sandbox.settings"
+pythonpath = "sandbox"
+DJANGO_SETTINGS_MODULE = "settings"
 testpaths = "tests/"
-addopts = "--create-db --no-migrations --cov=wagtail_email_subscription --cov-report xml -W ignore"
-python_paths = "sandbox"
+addopts = "--create-db --no-migrations"
 
 [tool.coverage.run]
 omit = ["**/migrations/**", "**/tests/**", "sandbox/**"]
