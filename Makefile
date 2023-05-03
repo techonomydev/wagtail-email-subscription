@@ -11,3 +11,6 @@ lint:
 test:
 	pytest
 
+cov:
+	pytest --cov=wagtail_email_subscription
+
