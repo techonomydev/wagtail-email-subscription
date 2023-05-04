@@ -81,7 +81,7 @@ jobs:
           pip list
       - name: Run the testsuite
         env:
-          DJANGO_SETTINGS_MODULE: sandbox.settings.github-ci
+          DJANGO_SETTINGS_MODULE: settings.github-ci
         run: |
           source $(poetry env info --path)/bin/activate
           pytest
