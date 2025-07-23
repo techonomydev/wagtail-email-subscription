@@ -1,8 +1,8 @@
 import factory
 import wagtail_factories
 from django.conf import settings
-from wagtail.core.models import Locale, Page
-from wagtail.core.utils import get_supported_content_language_variant
+from wagtail.models import Locale, Page
+from wagtail.utils import get_supported_content_language_variant
 
 from wagtail_email_subscription.contrib.formpage.models import (
     FormPage,

@@ -1,4 +1,4 @@
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.panels import FieldPanel
 
 from wagtail_email_subscription.utils import get_email_subscription_settings
 

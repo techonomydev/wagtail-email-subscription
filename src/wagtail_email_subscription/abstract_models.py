@@ -2,8 +2,8 @@ import logging
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.contrib.forms.edit_handlers import FormSubmissionsPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.contrib.forms.panels import FormSubmissionsPanel
 from wagtail.contrib.forms.models import (
     AbstractForm,
     AbstractFormField,

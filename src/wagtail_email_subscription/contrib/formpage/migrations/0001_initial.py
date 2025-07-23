@@ -3,7 +3,7 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
                 ('enabled', models.BooleanField(default=False, help_text='Enable or disable the Email Subscription integration of this form', verbose_name='Enabled')),
                 ('selected_list', models.CharField(blank=True, help_text='Select the Email Subscription list where the new subscribers will be a member of after submission', max_length=255, verbose_name='List')),
-                ('intro', wagtail.core.fields.RichTextField(blank=True)),
-                ('thank_you_text', wagtail.core.fields.RichTextField(blank=True)),
+                ('intro', wagtail.fields.RichTextField(blank=True)),
+                ('thank_you_text', wagtail.fields.RichTextField(blank=True)),
             ],
             options={
                 'abstract': False,

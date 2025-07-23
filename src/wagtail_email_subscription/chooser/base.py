@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import path, re_path
 from generic_chooser.views import ChooserMixin, ChooserViewSet
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 from wagtail_email_subscription.utils import get_email_subscription_settings
 

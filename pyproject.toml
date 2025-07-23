@@ -1,48 +1,50 @@
 [tool.poetry]
 name = "wagtail-email-subscription"
-version = "0.0.1"
+version = "0.0.0"
 description = "Wagtail form integration with Email marketing platforms like Active Campaign"
-authors = ["Martijn Jacobs <maerteijn@gmail.com>"]
+authors = [
+    "Martijn Jacobs <maerteijn@gmail.com>",
+    "Jochem Kuipers <jochem@kuipers.cc>",
+]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/maerteijn/wagtail-email-subscription"
 classifiers = [
-    "Development Status :: 3 - Alpha",
     "Environment :: Web Environment",
     "Framework :: Django",
-    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 5.2",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10"
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
-packages = [
-    { include = "wagtail_email_subscription", from = "src" },
-]
+packages = [{ include = "wagtail_email_subscription", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-Django = "~3.2"
-wagtail = "~2.16"
-activecampaign-python = "^1.0.3"
-wagtail-generic-chooser = "^0.2.1"
+python = "^3.10"
+Django = "~5.2"
+wagtail = "~7.0.1"
+activecampaign-python = "^1.0.10"
+wagtail-generic-chooser = "^0.7"
 
-[tool.poetry.dev-dependencies]
-flake8 = "~3.8"
-flake8-black = "^0.2.1"
-flake8-isort =  "4.0"
-pylint = "~2.17"
-black = "^22.1.0"
-psycopg2 = "~2.9"
-pytest = "~7"
-pytest-django = "~4.5"
-pytest-cov = "~4.0"
-pytest-env = "^0.8.1"
-poetry-dynamic-versioning = "~0.21"
-requests-mock = "^1.9.2"
-wagtail-factories = "^2.0.1"
-pytest-mock = "~3.10.0"
+[tool.poetry.group.dev.dependencies]
+flake8 = "~7.3.0"
+flake8-black = "^0.3.6"
+flake8-isort = "6.1.2"
+pylint = "~3.3.7"
+black = "^25.1.0"
+psycopg2 = "~2.9.10"
+pytest = "~8.4.1"
+pytest-django = "~4.11.1"
+pytest-cov = "~6.2.1"
+pytest-env = "^1.1.5"
+requests-mock = "^1.12.1"
+wagtail-factories = "^4.2.1"
+pytest-mock = "~3.14.1"
+
+# [tool.poetry.requires-plugins]
+# poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
 [tool.poetry-dynamic-versioning]
 enable = true
