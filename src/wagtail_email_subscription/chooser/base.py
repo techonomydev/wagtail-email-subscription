@@ -110,4 +110,5 @@ class EmailSubscriptionChooserViewSet(ChooserViewSet):
             # we override this because our "id's" can also be slug
             # like values so we need a different regex here
             re_path(r"^([-\w.]+)/$", self.chosen_view, name="chosen"),
+            path("chosen-multiple/", self.chosen_multiple_view, name="chosen_multiple"),
         ]
