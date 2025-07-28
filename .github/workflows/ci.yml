@@ -6,31 +6,30 @@ on:
   pull_request:
     branches: [ main ]
 
-defaults:
-  run:
-    working-directory: ./src
-
 jobs:
   setup-and-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-        with:
-          path: ./src
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Configure git
+        run: |
+          git config --global user.email "test@example.com"
+          git config --global user.name "Test User"
       - name: Install python dependencies
         run: |
           pip install poetry poetry-dynamic-versioning
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
           poetry install
       - name: Lint with flake8 and pylint
         run: |
-          source $(poetry env info --path)/bin/activate
-          flake8 .
-          pylint src/
+          poetry run flake8 src tests
+          poetry run pylint src tests
       - name: Upload src dir as artefact
         uses: actions/upload-artifact@v4
         with:
@@ -70,18 +69,23 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Configure git
+        run: |
+          git config --global user.email "test@example.com"
+          git config --global user.name "Test User"
       - name: Install python dependencies
         run: |
-          pip install poetry
+          pip install poetry poetry-dynamic-versioning
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
           poetry install
       - name: Install specific matrix dependencies
         run: |
-          source $(poetry env info --path)/bin/activate
-          pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
-          pip list
+          poetry run pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
+          poetry run pip list
       - name: Run the testsuite
         env:
           DJANGO_SETTINGS_MODULE: settings.github-ci
         run: |
-          source $(poetry env info --path)/bin/activate
-          pytest
+          cd sandbox
+          poetry run pytest
