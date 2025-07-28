@@ -5,8 +5,8 @@ install:
 	poetry install
 
 lint:
-	flake8
-	pylint src/
+	flake8 src tests sandbox
+	pylint src tests sandbox
 
 test:
 	pytest
@@ -14,3 +14,6 @@ test:
 cov:
 	pytest --cov=wagtail_email_subscription
 
+format:
+	black src tests sandbox
+	isort src tests sandbox

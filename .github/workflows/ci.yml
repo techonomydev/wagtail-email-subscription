@@ -15,13 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: ./src
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
         with:
-           python-version: '3.9'
+          python-version: "3.12"
       - name: Install python dependencies
         run: |
           pip install poetry poetry-dynamic-versioning
@@ -32,7 +32,7 @@ jobs:
           flake8 .
           pylint src/
       - name: Upload src dir as artefact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: src
           path: ./src
@@ -57,17 +57,17 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.9", "3.10"]
-        django-version: [3.2]
-        wagtail-version: ["2.14", "2.15", "2.16"]
+        python-version: ["3.10", "3.11", "3.12"]
+        django-version: [4.2, 5.0, 5.2]
+        wagtail-version: ["7.0", "7.1", "7.2"]
     steps:
       - name: Download src dir
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: src
           path: ./src
       - name: Setup Python 3.x
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install python dependencies

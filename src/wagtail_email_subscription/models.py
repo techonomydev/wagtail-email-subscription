@@ -1,14 +1,14 @@
 from django import forms
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 
 from . import client as clients
 
 
 @register_setting(icon="form")
-class EmailSubscriptionSettings(BaseSetting):
+class EmailSubscriptionSettings(BaseSiteSetting):
     ACTIVE_CAMPAIGN = "active-campaign"
     PROVIDERS = ((ACTIVE_CAMPAIGN, "Active Campaign"),)
 

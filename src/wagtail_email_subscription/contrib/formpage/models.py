@@ -1,12 +1,7 @@
 from django.db import models
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
-    FieldPanel,
-    InlinePanel,
-    ObjectList,
-    TabbedInterface,
-)
-from wagtail.core.fields import RichTextField
+from wagtail.admin.panels import FieldPanel, InlinePanel, ObjectList, TabbedInterface
+from wagtail.fields import RichTextField
 
 from wagtail_email_subscription.abstract_models import (
     AbstractEmailSubscriptionForm,
