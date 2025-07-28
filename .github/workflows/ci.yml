@@ -28,9 +28,8 @@ jobs:
           poetry install
       - name: Lint with flake8 and pylint
         run: |
-          source $(poetry env info --path)/bin/activate
-          flake8 .
-          pylint src/
+          poetry run flake8 .
+          poetry run pylint src/
       - name: Upload src dir as artefact
         uses: actions/upload-artifact@v4
         with:
@@ -76,12 +75,10 @@ jobs:
           poetry install
       - name: Install specific matrix dependencies
         run: |
-          source $(poetry env info --path)/bin/activate
-          pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
-          pip list
+          poetry run pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
+          poetry run pip list
       - name: Run the testsuite
         env:
           DJANGO_SETTINGS_MODULE: settings.github-ci
         run: |
-          source $(poetry env info --path)/bin/activate
-          pytest
+          poetry run pytest
