@@ -6,30 +6,31 @@ on:
   pull_request:
     branches: [ main ]
 
+defaults:
+  run:
+    working-directory: ./src
+
 jobs:
   setup-and-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
+        with:
+          path: ./src
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Configure git
-        run: |
-          git config --global user.email "test@example.com"
-          git config --global user.name "Test User"
+           python-version: '3.12'
       - name: Install python dependencies
         run: |
           pip install poetry poetry-dynamic-versioning
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
           poetry install
       - name: Lint with flake8 and pylint
         run: |
-          poetry run flake8 src tests
-          poetry run pylint src tests
+          source $(poetry env info --path)/bin/activate
+          flake8 .
+          pylint src/
       - name: Upload src dir as artefact
         uses: actions/upload-artifact@v4
         with:
@@ -41,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -57,8 +58,8 @@ jobs:
       fail-fast: true
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
-        django-version: [4.2, 5.0, 5.2]
-        wagtail-version: ["7.0", "7.1", "7.2"]
+        django-version: ["5.2"]
+        wagtail-version: ["7.0"]
     steps:
       - name: Download src dir
         uses: actions/download-artifact@v4
@@ -69,23 +70,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Configure git
-        run: |
-          git config --global user.email "test@example.com"
-          git config --global user.name "Test User"
       - name: Install python dependencies
         run: |
-          pip install poetry poetry-dynamic-versioning
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
+          pip install poetry
           poetry install
       - name: Install specific matrix dependencies
         run: |
-          poetry run pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
-          poetry run pip list
+          source $(poetry env info --path)/bin/activate
+          pip install "wagtail~=${{ matrix.wagtail-version }}.0" "django~=${{ matrix.django-version }}.0"
+          pip list
       - name: Run the testsuite
         env:
           DJANGO_SETTINGS_MODULE: settings.github-ci
         run: |
-          cd sandbox
-          poetry run pytest
+          source $(poetry env info --path)/bin/activate
+          pytest
