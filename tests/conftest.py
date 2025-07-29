@@ -78,7 +78,7 @@ def wagtail_site(django_db_setup, django_db_blocker):  # pylint: disable=unused-
 
 
 @pytest.fixture
-def email_subscription_setttings(wagtail_site):
+def email_subscription_setttings(wagtail_site):  # pylint: disable=redefined-outer-name
     return EmailSubscriptionSettings.for_site(wagtail_site)
 
 

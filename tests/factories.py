@@ -1,8 +1,8 @@
 import factory
 import wagtail_factories
 from django.conf import settings
-from wagtail.core.models import Locale, Page
-from wagtail.core.utils import get_supported_content_language_variant
+from wagtail.coreutils import get_supported_content_language_variant
+from wagtail.models import Locale, Page
 
 from wagtail_email_subscription.contrib.formpage.models import (
     FormPage,
@@ -34,6 +34,7 @@ class FormPageFieldFactory(factory.django.DjangoModelFactory):
 class FormPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = FormPage
+        skip_postgeneration_save = True
 
     title = "My Form Page"
     form_page_fields = factory.RelatedFactory(
@@ -54,6 +55,9 @@ class LocaleFactory(factory.django.DjangoModelFactory):
 
 
 class SiteFactory(wagtail_factories.SiteFactory):
+    class Meta:
+        skip_postgeneration_save = True
+
     hostname = "localhost"
     port = 8000
     site_name = "My Wagtail Email Subscription Test Site"
@@ -68,5 +72,5 @@ class FormPageSubmissionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = FormPageSubmission
 
-    form_data = '{"email": "test@test.com"}'
+    form_data = {"email": "test@test.com"}
     page = factory.SubFactory(FormPageFactory)

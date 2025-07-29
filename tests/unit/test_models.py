@@ -80,7 +80,7 @@ def test_page_form_submission_data(form_page_submission):
     data = form_page_submission.get_data()
     assert list(data.keys()) == ["email", "submit_time", "synced"]
 
-    form_page_submission.form_data = '{"another_field": "value"}'
+    form_page_submission.form_data = {"another_field": "value"}
     form_page_submission.save()
 
     data = form_page_submission.get_data()

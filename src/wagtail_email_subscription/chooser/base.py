@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import path, re_path
 from generic_chooser.views import ChooserMixin, ChooserViewSet
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 from wagtail_email_subscription.utils import get_email_subscription_settings
 
@@ -110,4 +110,5 @@ class EmailSubscriptionChooserViewSet(ChooserViewSet):
             # we override this because our "id's" can also be slug
             # like values so we need a different regex here
             re_path(r"^([-\w.]+)/$", self.chosen_view, name="chosen"),
+            path("chosen-multiple/", self.chosen_multiple_view, name="chosen_multiple"),
         ]
